@@ -6,6 +6,7 @@ Flask Backend Application
 from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 from mysql.connector import Error
+import os
 
 app = Flask(__name__)
 app.secret_key = 'gym_manager_secret_key_2025'
@@ -15,10 +16,10 @@ app.secret_key = 'gym_manager_secret_key_2025'
 # ============================================
 
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'password',        # <-- Set your MySQL root password here
-    'database': 'gym_management'
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'user': os.getenv('DB_USER', 'root'),
+    'password': os.getenv('DB_PASSWORD', 'password'),
+    'database': os.getenv('DB_NAME', 'gym_management')
 }
 
 
@@ -414,4 +415,4 @@ def analytics_trainers():
 # ============================================
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=5000)
