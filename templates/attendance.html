@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Attendance — GymManager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Attendance</h1>
+    <p>Mark and view member attendance</p>
+</div>
+
+<!-- Mark Attendance Form -->
+<div class="card">
+    <h2>Mark Attendance</h2>
+    <form method="POST" action="{{ url_for('attendance') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="member_id">Member</label>
+                <select id="member_id" name="member_id" required>
+                    <option value="">— Select Member —</option>
+                    {% for m in members %}
+                    <option value="{{ m.member_id }}">{{ m.first_name }} {{ m.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Check In Now</button>
+        </div>
+    </form>
+</div>
+
+<!-- Recent Attendance -->
+<div class="card">
+    <h2>Recent Attendance</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Member</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in records %}
+                <tr>
+                    <td>{{ a.attendance_id }}</td>
+                    <td>{{ a.first_name }} {{ a.last_name }}</td>
+                    <td>{{ a.check_in_date }}</td>
+                    <td>{{ a.check_in_time }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" style="text-align:center; color:#9ca3af;">No records yet</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

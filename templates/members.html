@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Members — GymManager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Members</h1>
+    <p>Manage gym memberships</p>
+</div>
+
+<!-- Add Member Form -->
+<div class="card">
+    <h2>Add New Member</h2>
+    <form method="POST" action="{{ url_for('add_member') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="date_of_birth">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="membership_type">Membership Type</label>
+                <select id="membership_type" name="membership_type" required>
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                    <option value="VIP">VIP</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Member</button>
+        </div>
+    </form>
+</div>
+
+<!-- Members List -->
+<div class="card">
+    <h2>All Members ({{ members|length }})</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+                    <th>Join Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in members %}
+                <tr>
+                    <td>{{ m.member_id }}</td>
+                    <td>{{ m.first_name }} {{ m.last_name }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.phone or '—' }}</td>
+                    <td>
+                        <span class="badge badge-{{ m.membership_type|lower }}">{{ m.membership_type }}</span>
+                    </td>
+                    <td>{{ m.join_date }}</td>
+                    <td>
+                        <span class="badge badge-{{ m.status|lower }}">{{ m.status }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" style="text-align:center; color:#9ca3af;">No members found</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

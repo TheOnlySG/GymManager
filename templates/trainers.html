@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Trainers — GymManager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Trainers</h1>
+    <p>Manage gym trainers</p>
+</div>
+
+<!-- Add Trainer Form -->
+<div class="card">
+    <h2>Add New Trainer</h2>
+    <form method="POST" action="{{ url_for('add_trainer') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="specialization">Specialization</label>
+                <input type="text" id="specialization" name="specialization" placeholder="e.g. Strength Training, Yoga">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Trainer</button>
+        </div>
+    </form>
+</div>
+
+<!-- Trainers List -->
+<div class="card">
+    <h2>All Trainers ({{ trainers|length }})</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Specialization</th>
+                    <th>Hire Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in trainers %}
+                <tr>
+                    <td>{{ t.trainer_id }}</td>
+                    <td>{{ t.first_name }} {{ t.last_name }}</td>
+                    <td>{{ t.email }}</td>
+                    <td>{{ t.phone or '—' }}</td>
+                    <td>{{ t.specialization or '—' }}</td>
+                    <td>{{ t.hire_date }}</td>
+                    <td>
+                        <span class="badge badge-{{ t.status|lower }}">{{ t.status }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" style="text-align:center; color:#9ca3af;">No trainers found</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

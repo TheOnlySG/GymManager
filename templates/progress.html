@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Progress — GymManager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Progress Tracking</h1>
+    <p>Log and view member weight progress</p>
+</div>
+
+<!-- Add Progress Form -->
+<div class="card">
+    <h2>Add Weight Log</h2>
+    <form method="POST" action="{{ url_for('progress') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="member_id">Member</label>
+                <select id="member_id" name="member_id" required>
+                    <option value="">— Select Member —</option>
+                    {% for m in members %}
+                    <option value="{{ m.member_id }}">{{ m.first_name }} {{ m.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="weight_kg">Weight (kg)</label>
+                <input type="number" id="weight_kg" name="weight_kg" step="0.1" min="20" max="300" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes" placeholder="Optional notes about this entry..."></textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Log Weight</button>
+        </div>
+    </form>
+</div>
+
+<!-- Progress Logs -->
+<div class="card">
+    <h2>Progress History</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Member</th>
+                    <th>Date</th>
+                    <th>Weight (kg)</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in logs %}
+                <tr>
+                    <td>{{ p.log_id }}</td>
+                    <td>{{ p.first_name }} {{ p.last_name }}</td>
+                    <td>{{ p.log_date }}</td>
+                    <td>{{ p.weight_kg }}</td>
+                    <td>{{ p.notes or '—' }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" style="text-align:center; color:#9ca3af;">No progress logs yet</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

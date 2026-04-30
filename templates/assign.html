@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Assign Trainer — GymManager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Assign Trainer</h1>
+    <p>Assign a trainer to a member</p>
+</div>
+
+<!-- Assignment Form -->
+<div class="card">
+    <h2>New Assignment</h2>
+    <form method="POST" action="{{ url_for('assign_trainer') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="member_id">Member</label>
+                <select id="member_id" name="member_id" required>
+                    <option value="">— Select Member —</option>
+                    {% for m in members %}
+                    <option value="{{ m.member_id }}">{{ m.first_name }} {{ m.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="trainer_id">Trainer</label>
+                <select id="trainer_id" name="trainer_id" required>
+                    <option value="">— Select Trainer —</option>
+                    {% for t in trainers %}
+                    <option value="{{ t.trainer_id }}">{{ t.first_name }} {{ t.last_name }} ({{ t.specialization or 'General' }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Assign Trainer</button>
+        </div>
+    </form>
+</div>
+
+<!-- Current Assignments -->
+<div class="card">
+    <h2>Current Assignments ({{ assignments|length }})</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Member</th>
+                    <th>Trainer</th>
+                    <th>Specialization</th>
+                    <th>Assigned Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in assignments %}
+                <tr>
+                    <td>{{ a.assignment_id }}</td>
+                    <td>{{ a.member_name }}</td>
+                    <td>{{ a.trainer_name }}</td>
+                    <td>{{ a.specialization or '—' }}</td>
+                    <td>{{ a.assigned_date }}</td>
+                    <td>
+                        <span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="text-align:center; color:#9ca3af;">No assignments yet</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

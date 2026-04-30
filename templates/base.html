@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gym Membership & Workout Tracking System">
+    <title>{% block title %}Gym Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="brand">GYM<span>Manager</span></a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('members') }}" class="{% if request.path.startswith('/members') or request.path == '/add-member' %}active{% endif %}">Members</a></li>
+                <li><a href="{{ url_for('trainers') }}" class="{% if request.path.startswith('/trainers') or request.path == '/add-trainer' %}active{% endif %}">Trainers</a></li>
+                <li><a href="{{ url_for('assign_trainer') }}" class="{% if request.path == '/assign-trainer' %}active{% endif %}">Assign</a></li>
+                <li><a href="{{ url_for('attendance') }}" class="{% if request.path == '/attendance' %}active{% endif %}">Attendance</a></li>
+                <li><a href="{{ url_for('progress') }}" class="{% if request.path == '/progress' %}active{% endif %}">Progress</a></li>
+                <li><a href="{{ url_for('payments') }}" class="{% if request.path == '/payments' %}active{% endif %}">Payments</a></li>
+                <li><a href="{{ url_for('analytics') }}" class="{% if request.path.startswith('/analytics') %}active{% endif %}">Analytics</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer">
+        &copy; 2025 GymManager — Gym Membership & Workout Tracking System
+    </div>
+</body>
+</html>
