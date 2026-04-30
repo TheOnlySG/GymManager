@@ -26,61 +26,65 @@ A complete gym management web application built with **Python Flask**, **MySQL**
 
 ---
 
-## 🚀 Setup Instructions
+## 🚀 Setup Instructions (Easiest Method)
 
-### 1. Prerequisites
+We have included automated setup scripts that make running the application as easy as double-clicking a file!
 
-- **Python 3.8+** installed
-- **MySQL 8.0+** installed and running
+**For Windows Users:**
+Double click on `run.bat` or run it in your terminal:
+```cmd
+run.bat
+```
 
-### 2. Clone / Navigate to the project
-
+**For Linux / macOS Users:**
+Run the shell script in your terminal:
 ```bash
-cd c:\Spandan
+chmod +x run.sh
+./run.sh
 ```
 
-### 3. Install Python dependencies
+The script will ask you if you want to run the app using **Docker** (Recommended) or through a **Local Python Setup**. It will automatically handle everything (creating environments, installing requirements, setting up the database, and opening your browser).
 
-```bash
-pip install -r requirements.txt
-```
+---
 
-### 4. Set up the database
+## 🛠️ Setup Instructions (Manual Methods)
 
-Open a MySQL client and run:
+If you prefer to configure everything manually, choose one of the options below.
 
-```sql
-source db.sql;
-```
+### Option 1: Running with Docker (Manual)
 
-Or from terminal:
+1. **Prerequisites**: [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
+2. **Clone the repository**:
+   ```bash
+   git clone https://github.com/TheOnlySG/GymManager
+   cd GymManager
+   ```
+3. **Run Docker Compose**:
+   ```bash
+   docker compose up -d --build
+   ```
+4. **Access the application**: Head to **http://localhost:5000**. (The database is automatically created and populated).
 
-```bash
-mysql -u root -p < db.sql
-```
+### Option 2: Local Python Setup (Manual)
 
-This creates the `gym_management` database, all tables, and inserts sample data.
-
-### 5. Configure database password
-
-Open `app.py` and set your MySQL root password in the `DB_CONFIG` dictionary:
-
-```python
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'YOUR_PASSWORD_HERE',   # ← change this
-    'database': 'gym_management'
-}
-```
-
-### 6. Run the server
-
-```bash
-python app.py
-```
-
-The app will start at: **http://127.0.0.1:5000**
+1. **Prerequisites**: **Python 3.8+** and **MySQL 8.0+** installed.
+2. **Install Python dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Set up the database**:
+   ```bash
+   mysql -u root -p < db.sql
+   ```
+4. **Configure database password**:
+   Export your MySQL password as an environment variable before running the app:
+   ```bash
+   export DB_PASSWORD="your_password"
+   ```
+5. **Run the server**:
+   ```bash
+   python app.py
+   ```
 
 ---
 
@@ -106,13 +110,16 @@ Follow these steps to demonstrate all features:
 
 ## 📁 Project Structure
 
-```
-c:\Spandan\
+```text
+GymManager/
 ├── app.py              # Flask application (all routes)
 ├── db.sql              # Database schema + sample data
 ├── requirements.txt    # Python dependencies
+├── Dockerfile          # Docker image configuration for web app
+├── docker-compose.yml  # Docker Compose orchestration
+├── run.bat             # Windows automated setup wizard
+├── run.sh              # Linux/Mac automated setup wizard
 ├── README.md           # This file
-├── PRD.md              # Product Requirements Document
 ├── static/
 │   └── style.css       # Stylesheet
 └── templates/
@@ -143,6 +150,6 @@ c:\Spandan\
 
 ## ⚠️ Notes
 
-- Default MySQL user is `root` with empty password — update in `app.py`
-- Sample data includes 10 members, 3 trainers, and related records
-- The app runs in debug mode for development; disable for production
+- The default setup scripts and Docker configuration expect standard MySQL setups.
+- Sample data is automatically injected during setup, including 10 members and 3 trainers.
+- The app currently runs in debug mode for development purposes. Disable debug mode before using in a production environment.
