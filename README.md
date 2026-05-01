@@ -153,3 +153,6 @@ GymManager/
 - The default setup scripts and Docker configuration expect standard MySQL setups.
 - Sample data is automatically injected during setup, including 10 members and 3 trainers.
 - The app currently runs in debug mode for development purposes. Disable debug mode before using in a production environment.
+
+ <img width="1913" height="895" alt="drawSQL-image-export-2026-05-01" src="https://github.com/user-attachments/assets/123e9e4a-a5d2-446b-a0ee-28eb60ad69aa" />
+
